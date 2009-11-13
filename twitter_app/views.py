@@ -7,8 +7,24 @@ from django.core.urlresolvers import reverse
 
 from twitter_app.utils import *
 from twitter_app.decorators import oauth_required
-from snippets.decorators import render_to
 
+def render_to(template=''):
+	def deco(view):
+		def fn(request, *args, **kargs):
+			if 'template' in kargs:
+				t = kargs['template']
+				del kargs['template']
+			else:
+				t = template
+			r = view(request, *args, **kargs) or {}
+			if isinstance(r, HttpResponse):
+				return r
+			else:
+				c = RequestContext(request, r)
+				return render_to_response(t, context_instance=c)
+		return fn
+	return deco
+	
 def main(request):
 	if request.session.has_key('access_token'):
 		return HttpResponseRedirect(reverse('twitter_oauth_friend_list'))
