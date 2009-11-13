@@ -1,0 +1,14 @@
+{% extends "twitter_app/base.html" %}
+
+{% block content %}
+<form action="." method="post">
+	<input type="text" name="text" />
+	<input type="submit" name="Post" />
+</form>
+<br /><br />
+<ul>
+	{% for tweet in timeline %}
+		{% include "twitter_app/tweet.html" %}
+	{% endfor %}
+</ul>
+{% endblock %}

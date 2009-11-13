@@ -1,10 +1,10 @@
 {% extends "twitter_app/base.html" %}
 
 {% block content %}
-<h2>Here comes your friends:</h2>
+<h2>Your friends:</h2>
 <ul>
-	{% for json in users %}
-		{% for twitter in json %}
+	{% for page in users %}
+		{% for twitter in page %}
 			<li>
 				<div class="twitter_user {% cycle even,odd as rowcolors %}">
 					<div class="image">
