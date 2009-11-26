@@ -53,6 +53,9 @@ def login_(request):
 		backend = get_backends()[0]
 		user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
 		login(request, user)
+		p = user.twitterprofile
+		p.access_token = request.session.get('access_token', None) or p.access_token
+		p.save()
 	next = request.session.get('next')
 	if next:
 		return HttpResponseRedirect(next)
